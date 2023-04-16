@@ -21,8 +21,16 @@
  *   0 <= Node.val <= 100
  */
 
+class Node {
+  constructor(value) {
+    this.value = value;
+    this.next = null;
+  }
+}
+
 const swapNodes = function(head, k) {
+  //
   return head;
 };
 
-module.exports = swapNodes;
+module.exports = { Node, swapNodes };
