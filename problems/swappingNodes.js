@@ -29,7 +29,39 @@ class Node {
 }
 
 const swapNodes = function(head, k) {
-  //
+  // find left node to swap
+  const result = head;
+  let pointer = head;
+  let leftPrev = head;
+  let count = 1;
+  while (count < k) {
+    leftPrev = pointer;
+    pointer = pointer.next;
+    count++;
+  }
+  let left = pointer;
+
+  // find right node to swap
+  pointer = head;
+  let kaway = pointer;
+  let rightPrev = pointer;
+  for (let i = 1; i < k; i++) {
+    kaway = kaway.next;
+  }
+  while (kaway.next !== null) {
+    rightPrev = pointer;
+    pointer = pointer.next;
+    kaway = kaway.next;
+  }
+  let right = pointer;
+
+  // start swap process
+  let leftNext = left.next === right ? left : left.next;
+  rightPrev.next = rightPrev === left ? rightPrev.next : left;
+  k === 1 ? head = right : leftPrev.next = right;
+  left.next = right.next;
+  right.next = leftNext;
+
   return head;
 };
 
