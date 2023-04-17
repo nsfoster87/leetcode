@@ -153,4 +153,60 @@ describe('swapNodes', () => {
     expect(result.next.next.next.next.next.next.value).toBe(3);
     expect(result.next.next.next.next.next.next.next.value).toBe(0);
   });
+  it('should work for linkedList of size 2', () => {
+    let node1 = new Node(100);
+    let node2 = new Node(90);
+    node1.next = node2;
+    let k = 2;
+    let head = node1;
+    let result = swapNodes(head, k);
+    expect(result.value).toBe(90);
+    expect(result.next.value).toBe(100);
+  });
+  it('should work for linkedList of size 3 and k in middle', () => {
+    let node1 = new Node(1);
+    let node2 = new Node(2);
+    let node3 = new Node(3);
+    let head = node1;
+    node1.next = node2;
+    node2.next = node3;
+
+    let k = 2;
+    let result = swapNodes(head, k);
+    expect(result.value).toBe(1);
+    expect(result.next.value).toBe(2);
+    expect(result.next.next.value).toBe(3);
+  });
+  it('should work for k = size - 1', () => {
+    let node1 = new Node(47);
+    let node2 = new Node(62);
+    let node3 = new Node(39);
+    let node4 = new Node(94);
+    let node5 = new Node(90);
+    let node6 = new Node(17);
+    let node7 = new Node(74);
+    let node8 = new Node(83);
+    let node9 = new Node(70);
+    let node10 = new Node(12);
+    let node11 = new Node(99);
+    let node12 = new Node(29);
+    let node13 = new Node(73);
+    let head = node1;
+    node1.next = node2;
+    node2.next = node3;
+    node3.next = node4;
+    node4.next = node5;
+    node5.next = node6;
+    node6.next = node7;
+    node7.next = node8;
+    node8.next = node9;
+    node9.next = node10;
+    node10.next = node11;
+    node11.next = node12;
+    node12.next = node13;
+
+    let k = 12;
+    let result = swapNodes(head, k);
+    expect(result.value).toBe(47);
+  })
 });

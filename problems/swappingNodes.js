@@ -48,16 +48,24 @@ const swapNodes = function(head, k) {
   for (let i = 1; i < k; i++) {
     kaway = kaway.next;
   }
-  while (kaway.next !== null) {
+  while (kaway && kaway.next !== null) {
     rightPrev = pointer;
     pointer = pointer.next;
     kaway = kaway.next;
   }
   let right = pointer;
 
+  console.log(`left: ${left.value}, right: ${right.value}, leftPrev: ${leftPrev.value}, rightPrev: ${rightPrev.value}`);
+
   // start swap process
+  if (left === right) return head;
+
   let leftNext = left.next === right ? left : left.next;
-  rightPrev.next = rightPrev === left ? rightPrev.next : left;
+  if (rightPrev === head && rightPrev === right) {
+    head = left;
+  } else {
+    rightPrev.next = rightPrev === left ? rightPrev.next : left;
+  }
   k === 1 ? head = right : leftPrev.next = right;
   left.next = right.next;
   right.next = leftNext;
