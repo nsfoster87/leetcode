@@ -19,7 +19,16 @@
  */
 
 const mergeAlternately = (word1, word2) => {
-
+  const letters1 = word1.split('');
+  const letters2 = word2.split('');
+  const result = [];
+  while (letters1.length && letters2.length) {
+    result.push(letters1.shift());
+    result.push(letters2.shift());
+  }
+  return letters1.length ?
+    result.concat(letters1).join('') :
+    result.concat(letters2).join('');
 };
 
 module.exports = mergeAlternately;

@@ -1,4 +1,4 @@
-const mergeAlternately = require('../problems/mergeAlternately');
+const mergeAlternately = require('../problems/mergeAlternately.js');
 
 describe('mergeAlternately', () => {
   it('should merge two strings into one string by alternating letters', () => {
