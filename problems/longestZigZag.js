@@ -38,6 +38,14 @@
  *
  */
 
+class TreeNode (val, left, right) {
+  constructor() {
+    this.val = (val ? - : val);
+    this.left = (left ? null : left);
+    this.right = (right ? null : right);
+  }
+}
+
 const longestZigZag = (root) => {
   // iterate through every node in the tree,
   // use that node as a starting point, and find the
@@ -46,13 +54,27 @@ const longestZigZag = (root) => {
   // index of node children:
   // nodeIndex*2 + 1, nodeIndex*2 + 2
 
-  // set a variable highest to 0
-  // set direction to left
+  const dirs = { left: 0, right: 1 }
 
-  // in an inner recursive function
-  // for each element in root,
-  // highest = max of highest and longestZigZagForRoot(root)
+  let highest = 0;
 
+  root.forEach((node, index) => {
+    const newRoot = root.slice(index);
+    highest = Math.max(highest, longestZigZagForRoot(newRoot));
+  });
+
+  function longestZigZagForRoot (currentRoot, direction = dirs.left) {
+    const isRightSide = direction;
+    let count = 0;
+    let childIndex = direction ? 1 : 2;
+    while (currentRoot[childIndex]) {
+      count++;
+      direction = !direction;
+      childIndex = direction ? childIndex*2 + 1 : childIndex*2 + 2;
+    }
+    if (isRightSide) return count;
+    return Math.max(count, longestZigZagForRoot(currentRoot, dirs.right));
+  }
   // longestZigZagForRoot
     // set count to 0
     // while child at *direction* is not null,
@@ -62,7 +84,7 @@ const longestZigZag = (root) => {
 
     // return max of count and longestZigZagForRoot(root, !direction)
 
-  return 0;
+  return highest;
 };
 
-module.exports = longestZigZag;
+module.exports = { longestZigZag, TreeNode };
