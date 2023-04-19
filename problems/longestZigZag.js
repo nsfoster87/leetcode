@@ -39,6 +39,29 @@
  */
 
 const longestZigZag = (root) => {
+  // iterate through every node in the tree,
+  // use that node as a starting point, and find the
+  // longestZigZag for each node
+
+  // index of node children:
+  // nodeIndex*2 + 1, nodeIndex*2 + 2
+
+  // set a variable highest to 0
+  // set direction to left
+
+  // in an inner recursive function
+  // for each element in root,
+  // highest = max of highest and longestZigZagForRoot(root)
+
+  // longestZigZagForRoot
+    // set count to 0
+    // while child at *direction* is not null,
+      // increment count
+      // set child at *direction* to currentNode
+      // direction = !direction
+
+    // return max of count and longestZigZagForRoot(root, !direction)
+
   return 0;
 };
 
