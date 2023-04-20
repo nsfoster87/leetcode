@@ -38,52 +38,37 @@
  *
  */
 
-class TreeNode (val, left, right) {
-  constructor() {
-    this.val = (val ? - : val);
-    this.left = (left ? null : left);
-    this.right = (right ? null : right);
+class TreeNode {
+  constructor(val, left, right) {
+    this.val = val
+    this.left = left;
+    this.right = right;
   }
 }
 
 const longestZigZag = (root) => {
-  // iterate through every node in the tree,
-  // use that node as a starting point, and find the
-  // longestZigZag for each node
-
-  // index of node children:
-  // nodeIndex*2 + 1, nodeIndex*2 + 2
-
-  const dirs = { left: 0, right: 1 }
-
   let highest = 0;
 
-  root.forEach((node, index) => {
-    const newRoot = root.slice(index);
-    highest = Math.max(highest, longestZigZagForRoot(newRoot));
-  });
+  function visitNode(currentNode) {
+    if (currentNode.left) visitNode(currentNode.left);
+    if (currentNode.right) visitNode(currentNode.right);
+    highest = Math.max(highest, longestZigZagForRoot(currentNode));
+  }
 
-  function longestZigZagForRoot (currentRoot, direction = dirs.left) {
-    const isRightSide = direction;
+  function longestZigZagForRoot (currentNode, direction = 'left') {
+    const isRightSide = direction === 'right';
     let count = 0;
-    let childIndex = direction ? 1 : 2;
-    while (currentRoot[childIndex]) {
+    let child = direction === 'left' ? currentNode.left : currentNode.right;
+    while (child) {
       count++;
-      direction = !direction;
-      childIndex = direction ? childIndex*2 + 1 : childIndex*2 + 2;
+      direction = direction === 'left' ? 'right' : 'left';
+      child = direction === 'left' ? child.left : child.right;
     }
     if (isRightSide) return count;
-    return Math.max(count, longestZigZagForRoot(currentRoot, dirs.right));
+    return Math.max(count, longestZigZagForRoot(currentNode, 'right'));
   }
-  // longestZigZagForRoot
-    // set count to 0
-    // while child at *direction* is not null,
-      // increment count
-      // set child at *direction* to currentNode
-      // direction = !direction
 
-    // return max of count and longestZigZagForRoot(root, !direction)
-
+  visitNode(root);
   return highest;
 };
 
