@@ -14,7 +14,17 @@
  */
 
 const longestPalindrome = (s) => {
-
+  // amanaplanacanalpanama
+  // adabadabooooooba
+  //
+  // keep a variable longest
+  // and a variable result
+  // start with the first letter,
+  // continuously add more letters to the end of the string
+  // each time you add a letter
+    // loop through from longest+1 to string length
+    // see if you've got a new longest
+  // return result
 };
 
 module.exports = longestPalindrome;
