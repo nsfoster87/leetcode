@@ -14,6 +14,7 @@ describe('longestPalindrome', () => {
     expect(longestPalindrome("ccc")).toBe("ccc");
     expect(longestPalindrome("abb")).toBe("bb");
     expect(longestPalindrome("tattarrattat")).toBe("tattarrattat");
+    expect(longestPalindrome("aaaabaaa")).toBe("aaabaaa");
   });
   it('should return the first letter for a string with no palindromic substring', () => {
     expect(longestPalindrome("abcdefg")).toBe("a");

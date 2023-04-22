@@ -54,7 +54,7 @@ const longestPalindrome = (s) => {
         // also check the next odd-numbered length
         substring = getSubstring(s, i, targetLength+1);
         if (!substring) return result;
-        updated = checkAndUpdateResultFor(substring);
+        updated = updated || checkAndUpdateResultFor(substring);
 
       } else {
         let substring = getSubstring(s, i, targetLength);
@@ -63,9 +63,9 @@ const longestPalindrome = (s) => {
 
         substring = getLeftSubstring(s, i, targetLength+1);
         if (!substring) break;
-        updated = checkAndUpdateResultFor(substring);
+        updated = updated || checkAndUpdateResultFor(substring);
       }
-      // console.log({s, i, longest, result, updated});
+      console.log({s, i, longest, result, updated});
     }
   }
   return result;
