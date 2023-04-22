@@ -29,16 +29,9 @@ const longestPalindrome = (s) => {
   // get left substring for an even-numbered targetLength
   // if there is no room on the left side of the string, return null
   function getLeftSubstring(str, index, targetLength) {
-    let leftIndex = index - Math.floor((targetLength+1)/2);
+    let leftIndex = index - Math.floor((targetLength)/2);
     if (leftIndex < 0) return null;
-    return str.substr(index - Math.floor((targetLength)/2), targetLength);
-  }
-
-  // get right substring for an even-numbered targetLength
-  // if there is no room on the right side of the string, return null
-  function getRightSubstring(str, index, targetLength) {
-    if (str.length - (index+1) < Math.floor((longest + 1) / 2)) return null;
-    return str.substr(index - Math.floor((targetLength)/2) + 1, targetLength);
+    return str.substr(leftIndex, targetLength);
   }
 
   // get substring for an odd-numbered targetLength
@@ -52,17 +45,11 @@ const longestPalindrome = (s) => {
     let updated = true;
     while(updated) {
       let targetLength = longest+1;
-      if (targetLength % 2 === 0) {
 
+      if (targetLength % 2 === 0) {
         let substring = getLeftSubstring(s, i, targetLength);
         if (!substring) break;
         updated = checkAndUpdateResultFor(substring);
-
-        // if (!updated) {
-        //   substring = getRightSubstring(s, i, targetLength);
-        //   if (!substring) return result;
-        //   updated = updated || checkAndUpdateResultFor(substring);
-        // }
 
         // also check the next odd-numbered length
         substring = getSubstring(s, i, targetLength+1);
@@ -78,7 +65,7 @@ const longestPalindrome = (s) => {
         if (!substring) break;
         updated = checkAndUpdateResultFor(substring);
       }
-      console.log({s, i, longest, result, updated});
+      // console.log({s, i, longest, result, updated});
     }
   }
   return result;
