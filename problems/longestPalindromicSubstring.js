@@ -17,16 +17,48 @@ const longestPalindrome = (s) => {
   let longest = 0;
   let result = "";
 
-  for (let i = 1; i <= s.length; i++) {
-    let substring = s.substring(0, i);
-    for (let j = longest + 1; j <= substring.length; j++) {
-      let lastLetters = substring.substr(substring.length - j, j).split('');
-      let reversed = lastLetters.slice().reverse().join("");
-      lastLetters = lastLetters.join("")
-      if (lastLetters === reversed) {
-        longest = lastLetters.length;
-        result = lastLetters;
+  function checkAndUpdateResultFor(str) {
+    if (str === str.slice().split('').reverse().join('')) {
+      longest = Math.max(longest, str.length);
+      result = str.length > result.length ? str : result;
+      return true;
+    }
+    return false;
+  }
+
+  for (let i = 0; i < s.length; i++) {
+    let updated = true;
+    while(updated) {
+      let targetLength = longest+1;
+      if (targetLength % 2 === 0) {
+
+        // if there is no room on the left side of the string, break out
+        let leftIndex = i - Math.floor((targetLength+1)/2);
+        if (leftIndex < 0) break;
+
+        // check the left-heavy even-numbered palindrome
+        let substring = s.substr(i - Math.floor((targetLength)/2), targetLength);
+        updated = checkAndUpdateResultFor(substring);
+
+        // if there is no room on the right side of the string, we're done
+        if (s.length - (i+1) < Math.floor((longest + 1) / 2)) return result;
+
+        // check the right-heavy even numbered palindrome
+        if (!updated) {
+          substring = s.substr(i - Math.floor((targetLength)/2) + 1, targetLength);
+          updated = updated || checkAndUpdateResultFor(substring);
+        }
+
+        if (s.length - (i+1) < Math.floor((targetLength+1)/2)) return result;
+        substring = s.substr(leftIndex, targetLength+1);
+        updated = checkAndUpdateResultFor(substring);
+
+      } else {
+        if (s.length - (i+1) < Math.floor(targetLength/2)) return result;
+        let substring = s.substr(i - Math.floor((targetLength)/2), targetLength);
+        updated = checkAndUpdateResultFor(substring);
       }
+      console.log({s, i, longest, result, updated});
     }
   }
   return result;
