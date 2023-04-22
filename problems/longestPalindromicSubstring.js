@@ -26,36 +26,56 @@ const longestPalindrome = (s) => {
     return false;
   }
 
+  // get left substring for an even-numbered targetLength
+  // if there is no room on the left side of the string, return null
+  function getLeftSubstring(str, index, targetLength) {
+    let leftIndex = index - Math.floor((targetLength+1)/2);
+    if (leftIndex < 0) return null;
+    return str.substr(index - Math.floor((targetLength)/2), targetLength);
+  }
+
+  // get right substring for an even-numbered targetLength
+  // if there is no room on the right side of the string, return null
+  function getRightSubstring(str, index, targetLength) {
+    if (str.length - (index+1) < Math.floor((longest + 1) / 2)) return null;
+    return str.substr(index - Math.floor((targetLength)/2) + 1, targetLength);
+  }
+
+  // get substring for an odd-numbered targetLength
+  function getSubstring(str, index, targetLength) {
+    let leftIndex = index - Math.floor(targetLength / 2);
+    if (str.length - (index+1) < Math.floor(targetLength / 2)) return null;
+    return str.substr(leftIndex, targetLength);
+  }
+
   for (let i = 0; i < s.length; i++) {
     let updated = true;
     while(updated) {
       let targetLength = longest+1;
       if (targetLength % 2 === 0) {
 
-        // if there is no room on the left side of the string, break out
-        let leftIndex = i - Math.floor((targetLength+1)/2);
-        if (leftIndex < 0) break;
-
-        // check the left-heavy even-numbered palindrome
-        let substring = s.substr(i - Math.floor((targetLength)/2), targetLength);
+        let substring = getLeftSubstring(s, i, targetLength);
+        if (!substring) break;
         updated = checkAndUpdateResultFor(substring);
 
-        // if there is no room on the right side of the string, we're done
-        if (s.length - (i+1) < Math.floor((longest + 1) / 2)) return result;
+        // if (!updated) {
+        //   substring = getRightSubstring(s, i, targetLength);
+        //   if (!substring) return result;
+        //   updated = updated || checkAndUpdateResultFor(substring);
+        // }
 
-        // check the right-heavy even numbered palindrome
-        if (!updated) {
-          substring = s.substr(i - Math.floor((targetLength)/2) + 1, targetLength);
-          updated = updated || checkAndUpdateResultFor(substring);
-        }
-
-        if (s.length - (i+1) < Math.floor((targetLength+1)/2)) return result;
-        substring = s.substr(leftIndex, targetLength+1);
+        // also check the next odd-numbered length
+        substring = getSubstring(s, i, targetLength+1);
+        if (!substring) return result;
         updated = checkAndUpdateResultFor(substring);
 
       } else {
-        if (s.length - (i+1) < Math.floor(targetLength/2)) return result;
-        let substring = s.substr(i - Math.floor((targetLength)/2), targetLength);
+        let substring = getSubstring(s, i, targetLength);
+        if (!substring) return result;
+        updated = checkAndUpdateResultFor(substring);
+
+        substring = getLeftSubstring(s, i, targetLength+1);
+        if (!substring) break;
         updated = checkAndUpdateResultFor(substring);
       }
       console.log({s, i, longest, result, updated});

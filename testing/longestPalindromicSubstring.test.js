@@ -15,10 +15,10 @@ describe('longestPalindrome', () => {
     expect(longestPalindrome("abb")).toBe("bb");
     expect(longestPalindrome("tattarrattat")).toBe("tattarrattat");
   });
-  it.skip('should return the first letter for a string with no palindromic substring', () => {
+  it('should return the first letter for a string with no palindromic substring', () => {
     expect(longestPalindrome("abcdefg")).toBe("a");
   });
-  it.skip('should run efficiently for long input strings', () => {
+  it('should run efficiently for long input strings', () => {
     let input = "ibvjkmpyzsifuxcabqqpahjdeuzaybqsrsmbfplxycsafogotliyvhxjt";
     input += "krbzqxlyfwujzhkdafhebvsdhkkdbhlhmaoxmbkqiwiusngkbdhlvxdyvnjrzvx";
     input += "mukvdfobzlmvnbnilnsyrgoygfdzjlymhprcpxsnxpcafctikxxybcusgjwmfklkf"
