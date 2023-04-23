@@ -33,7 +33,15 @@
  */
 
 const findTheDistanceValue = (arr1, arr2, d) => {
-
+  let count = 0;
+  for (let i = 0; i < arr1.length; i++) {
+    let goesTheDistance = true;
+    for (let j = 0; goesTheDistance && j < arr2.length; j++) {
+      if (Math.abs(arr1[i] - arr2[j]) <= d) goesTheDistance = false;
+    }
+    if (goesTheDistance) count++;
+  }
+  return count;
 };
 
 module.exports = findTheDistanceValue;

@@ -1,4 +1,4 @@
-const findTheDistanceValue = require('../problems/findTheDistanceValue.js');
+const findTheDistanceValue = require('../problems/distanceValue.js');
 
 describe('findTheDistanceValue', () => {
   it('should return the number of elements in arr1 that are d or more away from all elements in arr2', () => {
