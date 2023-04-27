@@ -31,7 +31,23 @@
  */
 
 const kthDistinct = (arr, k) => {
+  // iterate through the array
+    // if the item is in duplicates array,
+      //continue
+    // if item is in originals array,
+      // add the item to duplicates array
+      // continue
+    // add item to originals array
 
+  // start a variable count = 0
+  // iterate through array
+    // if item is not in duplicates,
+    // count++
+    // if count == k
+      // return item
+
+  // return ""
+  return "";
 };
 
 module.exports = kthDistinct;
