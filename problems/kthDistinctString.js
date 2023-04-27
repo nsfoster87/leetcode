@@ -31,22 +31,19 @@
  */
 
 const kthDistinct = (arr, k) => {
-  // iterate through the array
-    // if the item is in duplicates array,
-      //continue
-    // if item is in originals array,
-      // add the item to duplicates array
-      // continue
-    // add item to originals array
+  const originals = [];
+  const duplicates = [];
+  for (let i = 0; i < arr.length; i++) {
+    if (duplicates.includes(arr[i])) continue;
+    if (originals.includes(arr[i]) && duplicates.push(arr[i])) continue;
+    originals.push(arr[i]);
+  }
 
-  // start a variable count = 0
-  // iterate through array
-    // if item is not in duplicates,
-    // count++
-    // if count == k
-      // return item
-
-  // return ""
+  let count = 0;
+  for (let i = 0; i < arr.length; i++) {
+    duplicates.includes(arr[i]) || count++;
+    if (count === k) return arr[i];
+  }
   return "";
 };
 

@@ -1,4 +1,4 @@
-const kthDistinct = require('../problems/kthDistinctString');
+const kthDistinct = require('../problems/kthDistinctString.js');
 
 describe('kthDistinct', () => {
   it('should return the kth distinct string in an array', () => {
