@@ -22,10 +22,14 @@
 // Output: [0,1]
 
 const twoSum = (nums, target) => {
+  // hashmap approach...
+  const valuesToIndices = {};
+  nums.forEach((a, i) => valuesToIndices[a] = i);
   for (let i = 0; i < nums.length; i++) {
-    for (let j = 0; j < nums.length; j++) {
-      if (i === j) continue;
-      if (nums[i] + nums[j] === target) return [i, j];
+    const required = target - nums[i];
+    const requiredIndex = valuesToIndices[required];
+    if (requiredIndex !== undefined && requiredIndex !== i) {
+      return i < requiredIndex ? [i, requiredIndex] : [requiredIndex, i];
     }
   }
 };
