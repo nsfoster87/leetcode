@@ -7,5 +7,8 @@ describe('countNegatives', () => {
 
     grid = [[3,2],[1,0]];
     expect(countNegatives(grid)).toBe(0);
+
+    grid = [[-3,-5,-10],[-4,-5,-11],[-12,-13,-14]];
+    expect(countNegatives(grid)).toBe(9);
   });
 });
