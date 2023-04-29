@@ -13,6 +13,20 @@
 // Output: 0
 
 const countNegatives = (grid) => {
+  // initialize a nStart to be 0
+  // initialize a count variable to 0
+  //
+  // iterate backwards through the outer array,
+    // iterate backwards through the inner array,
+    // from innerArray.length to nStart
+      // if a number is >= 0,
+        // if it's the final index of the array (innerArray.length - 1),
+          // return count
+        // that column is the new nStart and no longer needs to be checked
+        // by any subsequent array iterations
+      // else
+        // count++
+
   return 0;
 };
 
