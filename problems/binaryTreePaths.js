@@ -29,7 +29,26 @@ class TreeNode {
 }
 
 const binaryTreePaths = (root) => {
+  // do a depth first search,
+  // finding all the leafs, while recording the path
 
+  // for tree [1,2,3,4,5,null,null,null,null,10]:
+  // from bottom up:
+  // 10: returns ["10"]
+  // 5 and 4: returns ["5->10"], ["4"]
+  // 2 and 3: returns ["2->5->10", "2->4"], ["3"]
+  // 1: returns ["1->2->5->10", "1->2->4", "1->3"]
+
+  // if root has no children,
+    // return [ rootString ]
+  // else if root has both children,
+    // leftPath = binaryTreePaths(leftChild).map(path => "rootString -> path");
+    // rightPath = binaryTreePaths(rightChild).map(path => "rootString -> path");
+    // return leftPath.concat(rightPath);
+  // else if root has left child:
+    // return binaryTreePaths(leftChild).map(path => "rootString -> path");
+  // else
+    // return binaryTreePaths(rightChild).map(path => "rootString -> path");
 };
 
 module.exports = { binaryTreePaths, TreeNode };
