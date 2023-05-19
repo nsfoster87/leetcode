@@ -39,8 +39,19 @@ const binaryTreePaths = (root) => {
   // 2 and 3: returns ["2->5->10", "2->4"], ["3"]
   // 1: returns ["1->2->5->10", "1->2->4", "1->3"]
 
-  // if root has no children,
-    // return [ rootString ]
+  if (!root.left && !root.right) {
+    return [`${root.val}`];
+  } else if (root.left && root.right) {
+    const paths = binaryTreePaths(root.left)
+      .map(path => `${root.val}->${path}`)
+      .concat(binaryTreePaths(root.right)
+        .map(path => `${root.val}->${path}`));
+    console.log(paths);
+    return paths;
+  } else {
+    const child = root.left ? root.left : root.right;
+    return binaryTreePaths(child).map(path => `${root.val}->${path}`);
+  }
   // else if root has both children,
     // leftPath = binaryTreePaths(leftChild).map(path => "rootString -> path");
     // rightPath = binaryTreePaths(rightChild).map(path => "rootString -> path");
