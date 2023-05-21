@@ -55,7 +55,9 @@
 // Ai, Bi, Cj, Dj consist of lower case English letters and digits.
 
 const calcEquation = (equations, values, queries) => {
+  const result = [];
 
+  return result;
 };
 
 module.exports = calcEquation;
