@@ -60,6 +60,8 @@ const calcEquation = (equations, values, queries) => {
   let vars = equations.reduce((flattened, equation) => flattened.concat(equation));
   console.log(vars);
 
+  // have to loop through each time if nothing is found to find
+  // 3rd and 4th order connections.
   queries.forEach(query => {
     if (!(vars.includes(query[0]) && vars.includes(query[1]))) {
       return result.push(-1);
@@ -86,7 +88,6 @@ const calcEquation = (equations, values, queries) => {
       console.log({equations, values, queries});
       console.log(query[0], JSON.stringify(commonVars));
 
-      console.log('looping through again');
       equations.forEach((equation, i) => {
         if (equation[0] === query[1] && commonVars[equation[1]]) {
           return result.push(commonVars[equation[1]] / values[i]);
