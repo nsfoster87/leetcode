@@ -57,44 +57,58 @@
 const calcEquation = (equations, values, queries) => {
   const result = [];
 
+  // maybe save the index of that var for later when we're searching
   let vars = equations.reduce((flattened, equation) => flattened.concat(equation));
   console.log(vars);
 
   // have to loop through each time if nothing is found to find
   // 3rd and 4th order connections.
   queries.forEach(query => {
+    // probably can just include this in the initial loop through...
     if (!(vars.includes(query[0]) && vars.includes(query[1]))) {
       return result.push(-1);
     } else if (query[0] === query[1]) {
       return result.push(1);
     } else {
-      let commonVars = {};
-      for (let i = 0; i < equations.length; i++) {
-        if (equations[i][0] === query[0]) {
-          if (equations[i][1] === query[1]) return result.push(values[i]);
-          commonVars[equations[i][1]] = values[i];
-        } else if (equations[i][1] === query[0]) {
-          if (equations[i][0] === query[1]) return result.push(1 / values[i]);
-          commonVars[equations[i][0]] = 1 / values[i];
-        }
+      // for this query
+      // loop through equations
+        // keep list of every ratio var for var1 (and its multiplier from values)
+        // and list of every ratio var from var2 (and its multiplier from values)
+        // keep a list of visited equation indices
+      // if either ratioVar list is empty, return -1
+      // are any of var1 ratioVars in var2 ratioVars?
+        // if so, return the multiplier or its inverse
+      // else
+        // repeat the process for each of var 1's ratioVars and their children
 
-        if (equations[i][0] === query[1] && commonVars[equations[i][1]]) {
-          return result.push(commonVars[equations[i][1]] / values[i]);
-        } else if (equations[i][1] === query[1] && commonVars[equations[i][0]]) {
-          return result.push(commonVars[equations[i][0]] / (1 / values[i]));
-        }
-      }
+      // let commonVars = {};
+      // for (let i = 0; i < equations.length; i++) {
+      //   if (equations[i][0] === query[0]) {
+      //     if (equations[i][1] === query[1]) return result.push(values[i]);
+      //     commonVars[equations[i][1]] = values[i];
+      //   } else if (equations[i][1] === query[0]) {
+      //     if (equations[i][0] === query[1]) return result.push(1 / values[i]);
+      //     commonVars[equations[i][0]] = 1 / values[i];
+      //   }
 
-      console.log({equations, values, queries});
-      console.log(query[0], JSON.stringify(commonVars));
+      //   if (equations[i][0] === query[1] && commonVars[equations[i][1]]) {
+      //     return result.push(commonVars[equations[i][1]] / values[i]);
+      //   } else if (equations[i][1] === query[1] && commonVars[equations[i][0]]) {
+      //     return result.push(commonVars[equations[i][0]] / (1 / values[i]));
+      //   }
+      // }
 
-      equations.forEach((equation, i) => {
-        if (equation[0] === query[1] && commonVars[equation[1]]) {
-          return result.push(commonVars[equation[1]] / values[i]);
-        } else if (equation[1] === query[1] && commonVars[equation[0]]) {
-          return result.push(commonVars[equation[0]] / (1 / values[i]));
-        }
-      });
+      // console.log({equations, values, queries});
+      // console.log(query[0], JSON.stringify(commonVars));
+
+      // console.log('looping through again');
+      // equations.forEach((equation, i) => {
+      //   if (equation[0] === query[1] && commonVars[equation[1]]) {
+      //     return result.push(commonVars[equation[1]] / values[i]);
+      //   } else if (equation[1] === query[1] && commonVars[equation[0]]) {
+      //     return result.push(commonVars[equation[0]] / (1 / values[i]));
+      //   }
+      // });
     }
   });
 
