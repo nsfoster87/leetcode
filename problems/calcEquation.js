@@ -57,60 +57,27 @@
 const calcEquation = (equations, values, queries) => {
   const result = [];
 
-  // maybe save the index of that var for later when we're searching
-  let vars = equations.reduce((flattened, equation) => flattened.concat(equation));
-  console.log(vars);
-
-  // have to loop through each time if nothing is found to find
-  // 3rd and 4th order connections.
-  queries.forEach(query => {
-    // probably can just include this in the initial loop through...
-    if (!(vars.includes(query[0]) && vars.includes(query[1]))) {
-      return result.push(-1);
-    } else if (query[0] === query[1]) {
-      return result.push(1);
-    } else {
-      // for this query
-      // loop through equations
-        // keep list of every ratio var for var1 (and its multiplier from values)
-        // and list of every ratio var from var2 (and its multiplier from values)
-        // keep a list of visited equation indices
-      // if either ratioVar list is empty, return -1
-      // are any of var1 ratioVars in var2 ratioVars?
-        // if so, return the multiplier or its inverse
-      // else
-        // repeat the process for each of var 1's ratioVars and their children
-
-      // let commonVars = {};
-      // for (let i = 0; i < equations.length; i++) {
-      //   if (equations[i][0] === query[0]) {
-      //     if (equations[i][1] === query[1]) return result.push(values[i]);
-      //     commonVars[equations[i][1]] = values[i];
-      //   } else if (equations[i][1] === query[0]) {
-      //     if (equations[i][0] === query[1]) return result.push(1 / values[i]);
-      //     commonVars[equations[i][0]] = 1 / values[i];
-      //   }
-
-      //   if (equations[i][0] === query[1] && commonVars[equations[i][1]]) {
-      //     return result.push(commonVars[equations[i][1]] / values[i]);
-      //   } else if (equations[i][1] === query[1] && commonVars[equations[i][0]]) {
-      //     return result.push(commonVars[equations[i][0]] / (1 / values[i]));
-      //   }
-      // }
-
-      // console.log({equations, values, queries});
-      // console.log(query[0], JSON.stringify(commonVars));
-
-      // console.log('looping through again');
-      // equations.forEach((equation, i) => {
-      //   if (equation[0] === query[1] && commonVars[equation[1]]) {
-      //     return result.push(commonVars[equation[1]] / values[i]);
-      //   } else if (equation[1] === query[1] && commonVars[equation[0]]) {
-      //     return result.push(commonVars[equation[0]] / (1 / values[i]));
-      //   }
-      // });
-    }
-  });
+  // NEW PLAN:
+  // for each query:
+  // keep an array of size equations.length called visited filled with false
+  // to keep track of which equations we've visited.
+  // initialize empty object to hold targetRatios (query[1] direct ratios) (query[1]: 1)
+  // initialize empty object to hold ratioVars (query[0] ratios and extended ratios) (query[0]: 1)
+  // while visited.includes(false):
+    // Loop through equations
+      // if visited[i] continue;
+      // if equation[i][0] === query[1],
+        // add other var and multiplier as key, value in targetRatios
+        // visited[i] = true;
+      // else if equation[i][1] === query[1],
+        // add other var and multiplier as key, value in targetRatios
+        // visited[i] = true;
+      // if ratioVars contains one of the equation vars,
+        // if other var is in targetRatios,
+          // return result.push(ratioVars[var1] / targetVars[var2])
+        // ratrioVars[otherVar] = ratioVars[var] * values[otherVar] (or reciporical)
+        // visited[i] = true;
+  // return result.push(-1)
 
   console.log(result);
   return result;
