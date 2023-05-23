@@ -33,5 +33,10 @@ describe('calcEquation', () => {
     let queries = [["x1","x5"],["x5","x2"],["x2","x4"],["x2","x2"],["x2","x9"],["x9","x9"]];
     let expected = [360.00000,0.00833,20.00000,1.00000,-1.00000,-1.00000];
     expect(calcEquation(equations, values, queries)).toEqual(expected);
+
+    equations = [["g","y"],["a","b"],["c","d"],["b","c"],["a","g"],["f","e"],["e","d"],["g","x"],["q","u"]];
+    values = [20, 3, 5, 4, 2, 10, 1/6, 2, 7];
+    queries = [["a", "e"], ["a","a"], ["y","y"], ["a","z"], ["z","z"], ["b","c"], ["c","b"],["a","y"]];
+    expected = [360, 1, 1, -1, -1, 4, 0.25, 40];
   });
 });

@@ -57,27 +57,57 @@
 const calcEquation = (equations, values, queries) => {
   const result = [];
 
-  // NEW PLAN:
-  // for each query:
-  // keep an array of size equations.length called visited filled with false
-  // to keep track of which equations we've visited.
-  // initialize empty object to hold targetRatios (query[1] direct ratios) (query[1]: 1)
-  // initialize empty object to hold ratioVars (query[0] ratios and extended ratios) (query[0]: 1)
-  // while visited.includes(false):
-    // Loop through equations
-      // if visited[i] continue;
-      // if equation[i][0] === query[1],
-        // add other var and multiplier as key, value in targetRatios
-        // visited[i] = true;
-      // else if equation[i][1] === query[1],
-        // add other var and multiplier as key, value in targetRatios
-        // visited[i] = true;
-      // if ratioVars contains one of the equation vars,
+  queries.forEach(query => {
+    let visited = new Array(equations.length).fill(false);
+    let targetRatios = { [query[1]]: 1 };
+    let ratioVars = { [query[0]]: 1 };
+
+    let changesMade = true;
+    while (visited.includes(false) && changesMade) {
+      changesMade = false;
+      console.log({equations, values});
+      for (let i = 0; i < equations.length; i++) {
+        if (visited[i]) continue;
+        const numerator = equations[i][0];
+        const denominator = equations[i][1];
+
+        // populing targetRatios
+        if (numerator === query[1]) {
+          targetRatios[denominator] = values[i];
+          visited[i] = changesMade = true;
+        } else if (denominator === query[1]) {
+          targetRatios[numerator] = 1 / values[i];
+          visited[i] = changesMade = true;
+        }
+
+        // if ratioVars contains one of the equation vars,
+        if (ratioVars[numerator]) {
+          console.log({query, numerator, denominator}, `ratioVars: ${JSON.stringify(ratioVars)}, targetRatios: ${JSON.stringify(targetRatios)}`);
+          if (targetRatios[denominator]) {
+            console.log('returning ' + ratioVars[numerator] + '/' + targetRatios[denominator]);
+            return result.push(ratioVars[numerator] / targetRatios[denominator]);
+          }
+          ratioVars[denominator] = ratioVars[numerator] * values[i];
+          visited[i] = changesMade = true;
+        } else if (ratioVars[denominator]) {
+          console.log({query, numerator, denominator}, `ratioVars: ${JSON.stringify(ratioVars)}, targetRatios: ${JSON.stringify(targetRatios)}`);
+          if (targetRatios[numerator]) {
+            console.log('returning ' + targetRatios[numerator] + '/' + ratioVars[denominator]);
+            return result.push(targetRatios[numerator] / ratioVars[denominator]);
+          }
+          ratioVars[numerator] = values[i] / ratioVars[denominator];
+          visited[i] = changesMade = true;
+        }
+
         // if other var is in targetRatios,
-          // return result.push(ratioVars[var1] / targetVars[var2])
+        // return result.push(ratioVars[var1] / targetVars[var2])
         // ratrioVars[otherVar] = ratioVars[var] * values[otherVar] (or reciporical)
         // visited[i] = true;
-  // return result.push(-1)
+      }
+    }
+
+    return result.push(-1);
+  });
 
   console.log(result);
   return result;
