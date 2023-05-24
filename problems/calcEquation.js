@@ -65,7 +65,6 @@ const calcEquation = (equations, values, queries) => {
     let changesMade = true;
     while (visited.includes(false) && changesMade) {
       changesMade = false;
-      console.log({equations, values});
       for (let i = 0; i < equations.length; i++) {
         if (visited[i]) continue;
         const numerator = equations[i][0];
@@ -82,34 +81,24 @@ const calcEquation = (equations, values, queries) => {
 
         // if ratioVars contains one of the equation vars,
         if (ratioVars[numerator]) {
-          console.log({query, numerator, denominator}, `ratioVars: ${JSON.stringify(ratioVars)}, targetRatios: ${JSON.stringify(targetRatios)}`);
           ratioVars[denominator] = ratioVars[numerator] * values[i];
           visited[i] = changesMade = true;
           if (targetRatios[denominator]) {
-            console.log('returning ' + ratioVars[denominator] + '/' + targetRatios[denominator]);
             return result.push(ratioVars[denominator] / targetRatios[denominator]);
           }
         } else if (ratioVars[denominator]) {
-          console.log({query, numerator, denominator}, `ratioVars: ${JSON.stringify(ratioVars)}, targetRatios: ${JSON.stringify(targetRatios)}`);
           ratioVars[numerator] = ratioVars[denominator] / values[i];
           visited[i] = changesMade = true;
           if (targetRatios[numerator]) {
-            console.log('returning ' + ratioVars[numerator] + '/' + targetRatios[numerator]);
             return result.push(ratioVars[numerator] / targetRatios[numerator]);
           }
         }
-
-        // if other var is in targetRatios,
-        // return result.push(ratioVars[var1] / targetVars[var2])
-        // ratrioVars[otherVar] = ratioVars[var] * values[otherVar] (or reciporical)
-        // visited[i] = true;
       }
     }
 
     return result.push(-1);
   });
 
-  console.log(result);
   return result;
 };
 
