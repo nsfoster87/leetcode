@@ -15,21 +15,17 @@
 
 const new21Game = (n, k, maxPts) => {
   const equalProb = 1 / maxPts;
-  // loop through from 1 to maxPts
-  // for each number,
-    // if total >= k
-      // if total < n,
-        // add equalProb to the power of depth of leaf to result
-    // else if total < k,
-      // drill down recursively until hitting a "leaf"
-
-  // Outside hold result
   let result = 0;
-  // Inner recursive function takes in a currentTotal and currentDepth
   const findLeaf = (currentTotal, currentDepth) => {
-
+    for (let i = 1; i <= maxPts; i++) {
+      const newTotal = currentTotal + i;
+      if (newTotal >= k && newTotal <= n) result += equalProb**currentDepth;
+      else if (newTotal < k) findLeaf(newTotal, currentDepth + 1);
+      if (newTotal >= n) break;
+    }
   }
 
+  findLeaf(0, 1);
   return result;
 };
 
