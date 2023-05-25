@@ -14,6 +14,14 @@
 // Answers within 10-5 of the actual answer are considered accepted.
 
 const new21Game = (n, k, maxPts) => {
+  const equalProb = 1 / maxPts;
+  // loop through from 1 to maxPts
+  // for each number,
+    // if total >= k
+      // if total < n,
+        // add equalProb to the power of depth of leaf to result
+    // else if total < k,
+      // drill down recursively until hitting a "leaf"
   return 1;
 };
 
