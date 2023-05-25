@@ -14,6 +14,15 @@
 // Answers within 10-5 of the actual answer are considered accepted.
 
 const new21Game = (n, k, maxPts) => {
+  // new solution algorithm:
+  // count the number of ways you can add up to sums between k and n,
+  // and multiply equalProb to the power of that sum's number of additives.
+  // for example:
+  // k = 5, n = 6, maxPts = 10:
+  // 1 + 1 + 1 + 1 + 1 = 5  ->  result += 0.1**5
+  // 1 + 1 + 1 + 1 + 2 = 6  ->  result += 0.1**5
+  // 1 + 4                  ->  result += 0.1**2
+
   if (k === 0) return k <= n;
 
   const equalProb = 1 / maxPts;
