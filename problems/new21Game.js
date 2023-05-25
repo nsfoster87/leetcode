@@ -22,7 +22,15 @@ const new21Game = (n, k, maxPts) => {
         // add equalProb to the power of depth of leaf to result
     // else if total < k,
       // drill down recursively until hitting a "leaf"
-  return 1;
+
+  // Outside hold result
+  let result = 0;
+  // Inner recursive function takes in a currentTotal and currentDepth
+  const findLeaf = (currentTotal, currentDepth) => {
+
+  }
+
+  return result;
 };
 
 module.exports = new21Game;
