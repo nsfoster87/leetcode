@@ -17,4 +17,11 @@ describe('new21Game', () => {
     expect(roundTo5Sigs(new21Game(0, 1, 10))).toBe(0);
     expect(roundTo5Sigs(new21Game(0, 17, 10))).toBe(0);
   });
+  it('should return 1.0 for k = 0 and n = 0', () => {
+    expect(roundTo5Sigs(new21Game(0, 0, 1))).toBe(1);
+    expect(roundTo5Sigs(new21Game(0, 0, 2))).toBe(1);
+  });
+  it('should execute in a reasonable amount of time', () => {
+    expect(roundTo5Sigs(new21Game(421, 400, 47))).toExist();
+  });
 });

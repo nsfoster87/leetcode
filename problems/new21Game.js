@@ -14,6 +14,8 @@
 // Answers within 10-5 of the actual answer are considered accepted.
 
 const new21Game = (n, k, maxPts) => {
+  if (k === 0) return k <= n;
+
   const equalProb = 1 / maxPts;
   let result = 0;
   const findLeaf = (currentTotal, currentDepth) => {
