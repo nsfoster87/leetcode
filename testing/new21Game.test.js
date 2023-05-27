@@ -11,6 +11,7 @@ describe('new21Game', () => {
     expect(roundTo5Sigs(new21Game(6, 1, 10))).toBe(0.6);
   });
   it('should return correct probability for multiple cards, and n < maxPts', () => {
+    expect(roundTo5Sigs(new21Game(6, 5, 10))).toBe((0.29282))
     expect(roundTo5Sigs(new21Game(21, 17, 10))).toBe(0.73278);
   });
   it('should return 0 for n = 0', () => {

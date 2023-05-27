@@ -14,6 +14,12 @@
 // Answers within 10-5 of the actual answer are considered accepted.
 
 const new21Game = (n, k, maxPts) => {
+  // For each number of cards,
+  // Find the number of permutations that add up to x where
+  // k <= x <= n
+  // multiply x by (1/maxPts)^numberOfCards
+  // and add to total
+
   // new solution algorithm:
   // count the number of ways you can add up to sums between k and n,
   // and multiply equalProb to the power of that sum's number of additives.
@@ -27,16 +33,25 @@ const new21Game = (n, k, maxPts) => {
 
   const equalProb = 1 / maxPts;
   let result = 0;
+  let countAtDepth = {};
   const findLeaf = (currentTotal, currentDepth) => {
     for (let i = 1; i <= maxPts; i++) {
       const newTotal = currentTotal + i;
-      if (newTotal >= k && newTotal <= n) result += equalProb**currentDepth;
-      else if (newTotal < k) findLeaf(newTotal, currentDepth + 1);
+      if (newTotal >= k && newTotal <= n) {
+        const oldResult = result;
+        result += equalProb**currentDepth;
+        countAtDepth[currentDepth] = countAtDepth[currentDepth] ? countAtDepth[currentDepth] + 1 : 1;
+        // console.log(`k=${k},n=${n}, result: ${oldResult} + ${equalProb}**${currentDepth} = ${result}`);
+      } else if (newTotal < k) {
+        if (currentDepth > 10) break;
+        findLeaf(newTotal, currentDepth + 1);
+      }
       if (newTotal >= n) break;
     }
   }
 
   findLeaf(0, 1);
+  console.log(JSON.stringify(countAtDepth));
   return result;
 };
 
