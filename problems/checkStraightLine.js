@@ -19,6 +19,10 @@
 //   * coordinates contains no duplicate point
 
 const checkStraightLine = (coordinates) => {
+  // find the formula for the line given the first two coordinates
+  // plug each subsequent coordinate into the formula
+  // if any of them do not fit the formula,
+    // return false
   return true;
 };
 
