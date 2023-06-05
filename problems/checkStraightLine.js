@@ -19,17 +19,14 @@
 //   * coordinates contains no duplicate point
 
 const checkStraightLine = (coordinates) => {
-  // find the formula for the line given the first two coordinates
-    // find the slope:
-    // m = (coordinates[1][1] - coordinates[0][1]) / (coordinates[1][0] - coordinates[0][0])
-    // find the y intercept:
-    // y = mx + b
-    // b = coordinates[0][1] / (m * coordinates[0][0])
+  const m = (coordinates[1][1] - coordinates[0][1]) / (coordinates[1][0] - coordinates[0][0]);
+  const b = coordinates[0][1] - (m * coordinates[0][0]);
 
-  // plug each subsequent coordinate into the formula
-    // if coordinates.length > 2:
-      // for each coordinate (after 2nd):
-        // if (coordinates[i][1] !== m * coordinates[i][0] + b) return false
+  for (let i = 2; i < coordinates.length; i++) {
+    if (m === Infinity) {
+      if (coordinates[i][0] !== coordinates[0][0]) return false;
+    } else if (coordinates[i][1] !== m * coordinates[i][0] + b) return false;
+  }
 
   return true;
 };
