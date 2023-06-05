@@ -20,9 +20,17 @@
 
 const checkStraightLine = (coordinates) => {
   // find the formula for the line given the first two coordinates
+    // find the slope:
+    // m = (coordinates[1][1] - coordinates[0][1]) / (coordinates[1][0] - coordinates[0][0])
+    // find the y intercept:
+    // y = mx + b
+    // b = coordinates[0][1] / (m * coordinates[0][0])
+
   // plug each subsequent coordinate into the formula
-  // if any of them do not fit the formula,
-    // return false
+    // if coordinates.length > 2:
+      // for each coordinate (after 2nd):
+        // if (coordinates[i][1] !== m * coordinates[i][0] + b) return false
+
   return true;
 };
 
