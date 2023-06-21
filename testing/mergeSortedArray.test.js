@@ -7,6 +7,12 @@ describe('mergeSortedArray', () => {
     let nums2 = [2,5,6];
     let n = 3;
     expect(merge(nums1, m, nums2, n)).toEqual([1,2,2,3,5,6]);
+
+    nums1 = [7,8,10,0,0];
+    m = 3;
+    nums2 = [1,9];
+    n = 2;
+    expect(merge(nums1, m, nums2, n)).toEqual([1,7,8,9,10]);
   });
   it('should return a sorted array when one array is of size 0', () => {
     let nums1 = [1];

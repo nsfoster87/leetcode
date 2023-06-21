@@ -45,6 +45,15 @@
 // -109 <= nums1[i], nums2[j] <= 109
 
 const merge = (nums1, m, nums2, n) => {
+  // loop through nums2,
+  // keep a compareNext var
+  // and a temp var
+  // and a counter of where we are in nums1
+  // while nums[i] <= nums1[counter] && counter < m,
+  //   counter++
+  // put nums1[counter] into tempVar
+  // put nums[i] at nums1[counter]
+  // counter++
   return nums1;
 };
 
