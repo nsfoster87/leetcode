@@ -45,8 +45,6 @@
 // -109 <= nums1[i], nums2[j] <= 109
 
 const merge = (nums1, m, nums2, n) => {
-  if (n === 0) return nums1;
-  if (m === 0) return nums2;
   let i = m-1;
   let j = n-1;
   let index = nums1.length - 1;
