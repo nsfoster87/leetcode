@@ -12,14 +12,18 @@
 // Return k.
 
 const removeElement = (nums, val) => {
-    // k starts as nums.length
-    // work through the array,
-    // if I come across the value, I'm going to swap it with
-    // a number at or near the end of the array whose index
-    // is determined by the number of vals we've already found
-    // before swapping, check that the number-to-be-swapped
-    // is not also val
-    // decrement k
-    // increment i
-    // do this while i is less than k
+  let k = nums.length;
+  for (let i = 0; i < k; i++) {
+    if (nums[i] === val) {
+      while (nums[k-1] === val && k-1 > i) {
+        k--;
+      }
+      if (k-1 > i) {
+        nums[i] = nums[k-1];
+        nums[k-1] = val;
+      }
+      k--;
+    }
+  }
+  return k;
 };
