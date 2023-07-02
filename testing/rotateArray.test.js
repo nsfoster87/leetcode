@@ -11,5 +11,12 @@ describe('rotateArray', () => {
     k = 2;
     rotate(nums, k);
     expect(nums).toEqual([3,99,-1,-100]);
+  });
+
+  it('should work for k > nums.length', () => {
+    let nums = [1,2,3];
+    let k = 11;
+    rotate(nums, k);
+    expect(nums).toEqual([2,3,1]);
   })
 });
