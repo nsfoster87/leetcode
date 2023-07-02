@@ -12,20 +12,22 @@
 // Output: [3, 99, -1, -100]
 
 const rotate = (nums, k) => {
-  // k = k % nums.length;
-  // keep a count variable to keep track of swaps
-  // keep a temporary variable to hold the next element to swap
-  // iterate through nums while count is less than nums.length
-    // currentNum = nums[i]
-    // currentIndex = i;
-    // destination is (currentIndex + k) % nums.length
-    // while i !== destination && count < nums.length
-      // temp = nums[destination]
-      // destination = currentNum
-      // count++
-      // currentNum = temp
-      // destination is (currentIndex + k) % nums.length
-
+  k = k % nums.length;
+  let count = 0;
+  let temp;
+  for (let i = 0; i < nums.length && count < nums.length; i++) {
+    let currentNum = nums[i];
+    let destination = (i + k) % nums.length;
+    let currentIndex = destination;
+    while (i !== currentIndex && count < nums.length) {
+      currentIndex = destination;
+      temp = nums[destination];
+      nums[destination] = currentNum;
+      count++;
+      currentNum = temp;
+      destination = (currentIndex + k) % nums.length;
+    }
+  }
 };
 
 module.exports = rotate;
