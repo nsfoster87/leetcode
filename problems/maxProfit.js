@@ -10,7 +10,11 @@
 // If you cannot achieve any profit, return 0.
 
 const maxProfit = (prices) => {
-  return 0;
+  let lowest = prices[0];
+  return prices.reduce((max, price) => {
+    if (price < lowest) lowest = price;
+    return price - lowest > max ? price - lowest : max;
+  }, 0);
 };
 
 module.exports = maxProfit;
