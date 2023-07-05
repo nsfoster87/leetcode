@@ -25,11 +25,20 @@
 // Output: 0
 
 const maxProfit = (prices) => {
-  // when it changes direction it would have been best to buy or sell before that
-  // So as you're iterating through, look for the first inflection where the profit is higher than the day before,
-  // then buy on the previous day
-  // once bought, look for the first day where the stock is lower than the day before, and sell on the previous day.
-  // continue til the end of the array
+  if (prices.length === 1) return 0;
+  // keep buyNext flag, set to true
+  // keep a bought variable to store last bought price
+  // keep a sold variable to keep last sold price
+  // keep a total variable
+
+  // iterate through prices
+  // if price today is higher than price yesterday and buyNext is true,
+    // buy yesterday
+    // set buyNext to false
+  // else if price today is lower than yesterday and buyNext is false,
+    // sell yesterday
+    // add to total
+    // buyNext is true
   return 0;
 };
 
