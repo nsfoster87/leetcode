@@ -26,20 +26,25 @@
 
 const maxProfit = (prices) => {
   if (prices.length === 1) return 0;
-  // keep buyNext flag, set to true
-  // keep a bought variable to store last bought price
-  // keep a sold variable to keep last sold price
-  // keep a total variable
+  let buyNext = true;
+  let lastBought;
+  let total = 0;
 
-  // iterate through prices
-  // if price today is higher than price yesterday and buyNext is true,
-    // buy yesterday
-    // set buyNext to false
-  // else if price today is lower than yesterday and buyNext is false,
-    // sell yesterday
-    // add to total
-    // buyNext is true
-  return 0;
+  for (let today = 1; today < prices.length; today++) {
+    if (buyNext && prices[today] > prices[today-1]) {
+      lastBought = prices[today-1];
+      buyNext = false;
+    }
+    if (!buyNext) {
+      if (prices[today] < prices[today-1]) {
+        total += prices[today-1] - lastBought;
+        buyNext = true;
+      } else if (today === prices.length-1 && prices[today] > lastBought) {
+        total += prices[today] - lastBought;
+      }
+    }
+  }
+  return total;
 };
 
 module.exports = maxProfit;
