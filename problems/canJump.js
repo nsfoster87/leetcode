@@ -6,6 +6,10 @@
 // Return true if you can reach the last index, or false otherwise.
 
 const canJump = (nums) => {
+  // zeroes are the main concern, so
+  // iterate through til you find a zero,
+  // keeping track of the biggest leap you can take...
+  // if the biggest leap gets to zero and you're at a zero, game over
   if (nums[0] >= nums.length - 1) return true;
   for (let i = nums[0]; i > 0; i--) {
     if (canJump(nums.slice(i))) return true;
