@@ -22,7 +22,21 @@
 // Output: 2
 
 const jump = (nums) => {
-
+  // keep a variable with the currentHopCount = 1;
+  // keep a variable with currentHopLength = nums[0]--
+  // keep a variable with the nextHopLength = 0
+  // for each num in nums (starting with 1):
+    // nextHopLength = the greater of nums[i] and nextHop
+    // if currentHopLength === 0:
+      // currentHopCount++;
+      // currentHopLength = nextHopLength
+      // nextHopLength = nums[i]
+    // if currentHopLength + i >= nums.length - 1:
+      // return currentHopCount
+    // if nextHopLength + i >= nums.length - 1:
+      // return nextHopCount + 1
+    // currentHopLength--
+    // nextHopLength--
 };
 
 module.exports = jump;
