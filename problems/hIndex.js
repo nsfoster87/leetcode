@@ -33,30 +33,23 @@ const hIndex = (citations) => {
         // if the citation number is the highest so far...
         if (num > maxIndex) {
           maxIndex = num;
-          counts[num] = 1;
+          counts[num] = 0;
         } else {
-          // set the count of this citation number to 1 more than the lowest
+          // set the count of this citation number to the lowest
           // next greatest citation number in counts
-          for (let lowestNext = num + 1; lowestNext < maxIndex; lowestNext++) {
+          for (let lowestNext = num + 1; lowestNext <= maxIndex; lowestNext++) {
             if (counts[lowestNext]) {
-              counts[num] = counts[lowestNext] + 1;
+              counts[num] = counts[lowestNext];
               break;
             }
           }
         }
       }
 
-      if (!updated) {
-        if (counts[num] > h) {
-          h++;
-          updated = true;
-        }
-      }
-
-      // increment all the other citation numbers from the new number
+      // increment num and all the other citation numbers from the new number
       // only through h (we no longer care about numbers lower than h)
-      for (let j = num - 1; j > h; j--) {
-        if (counts[j]) {
+      for (let j = num; j > h; j--) {
+        if (counts[j] !== undefined) {
           counts[j]++;
           if (!updated) {
             if (counts[j] > h) {
@@ -67,8 +60,6 @@ const hIndex = (citations) => {
         }
       }
     }
-    console.log({num, h});
-    console.log(JSON.stringify(counts));
   });
 
   return h;
