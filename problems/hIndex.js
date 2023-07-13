@@ -21,13 +21,31 @@
 // Output: 5
 
 const hIndex = (citations) => {
-  // keep an object of counts and a counter currentResult
-  // keep track of maxIndex
+  // let h = 0;
+  // let counts = {};
+  // let maxIndex = 0;
   // for each number in citations,
+    // updated = false;
     // if number is greater than h,
-      // update number in counter, and all numbers below it
-      // and greater than h
-      // also check if we need to update maxIndex
+      // update the number in the counts:
+        // if !counts[number]:
+          // insert number
+          // if number > maxIndex,
+            // maxIndex = number
+            // counts[number] = 1
+          // else
+            // for i = number+1, i < maxIndex:
+            // if (counts[i]):
+              // counts[number] = counts[i] + 1
+              // break
+        // from number-1 down thru h,
+          // if counts[j],
+            // counts[j]++
+            // if !updated,
+              // if counts[j] > h
+                // h++
+                // updated = true
+
   // return h
 };
 
