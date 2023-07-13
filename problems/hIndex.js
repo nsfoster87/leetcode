@@ -17,8 +17,18 @@
 // Input: citations = [1, 3, 1]
 // Output: 1
 
-const hIndex = (citations) => {
+// [5, 7, 1, 1, 2, 0, 4, 3, 6, 1, 2, 0, 5, 12, 10, 3, 7]
+// Output: 5
 
+const hIndex = (citations) => {
+  // keep an object of counts and a counter currentResult
+  // keep track of maxIndex
+  // for each number in citations,
+    // if number is greater than h,
+      // update number in counter, and all numbers below it
+      // and greater than h
+      // also check if we need to update maxIndex
+  // return h
 };
 
 module.exports = hIndex;
