@@ -21,32 +21,57 @@
 // Output: 5
 
 const hIndex = (citations) => {
-  // let h = 0;
-  // let counts = {};
-  // let maxIndex = 0;
-  // for each number in citations,
-    // updated = false;
-    // if number is greater than h,
-      // update the number in the counts:
-        // if !counts[number]:
-          // insert number
-          // if number > maxIndex,
-            // maxIndex = number
-            // counts[number] = 1
-          // else
-            // for i = number+1, i < maxIndex:
-            // if (counts[i]):
-              // counts[number] = counts[i] + 1
-              // break
-        // from number-1 down thru h,
-          // if counts[j],
-            // counts[j]++
-            // if !updated,
-              // if counts[j] > h
-                // h++
-                // updated = true
+  let h = 0;
+  let counts = {};
+  let maxIndex = 0;
 
-  // return h
+  citations.forEach(num => {
+    // only update h once per index
+    let updated = false;
+    if (num > h) {
+      if (!counts[num]) {
+        // if the citation number is the highest so far...
+        if (num > maxIndex) {
+          maxIndex = num;
+          counts[num] = 1;
+        } else {
+          // set the count of this citation number to 1 more than the lowest
+          // next greatest citation number in counts
+          for (let lowestNext = num + 1; lowestNext < maxIndex; lowestNext++) {
+            if (counts[lowestNext]) {
+              counts[num] = counts[lowestNext] + 1;
+              break;
+            }
+          }
+        }
+      }
+
+      if (!updated) {
+        if (counts[num] > h) {
+          h++;
+          updated = true;
+        }
+      }
+
+      // increment all the other citation numbers from the new number
+      // only through h (we no longer care about numbers lower than h)
+      for (let j = num - 1; j > h; j--) {
+        if (counts[j]) {
+          counts[j]++;
+          if (!updated) {
+            if (counts[j] > h) {
+              h++;
+              updated = true;
+            }
+          }
+        }
+      }
+    }
+    console.log({num, h});
+    console.log(JSON.stringify(counts));
+  });
+
+  return h;
 };
 
 module.exports = hIndex;
