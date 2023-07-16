@@ -11,13 +11,18 @@ describe('randomizedSet', () => {
     expect(inserted).toBe(true);
     expect(randomizedSet.getRandom()).toBe(1);
   });
+  it('should return false for insert of item already in set', () => {
+    const set = new RandomizedSet();
+    expect(set.insert(1)).toBe(true);
+    expect(set.insert(1)).toBe(false);
+  });
   it('should remove an item from the set, returning true if successful', () => {
     const set = new RandomizedSet();
     const nothingHere = set.remove(2);
     expect(nothingHere).toBe(false);
 
     const inserted = set.insert(2);
-    expect(randomizedSet.getRandom()).toBe(2);
+    expect(set.getRandom()).toBe(2);
     const removed = set.remove(2);
     expect(removed).toBe(true);
   });
@@ -28,4 +33,13 @@ describe('randomizedSet', () => {
     set.insert(3);
     expect([1,2,3].includes(set.getRandom())).toBe(true);
   });
+  it('should return true when inserting a previously removed value', () => {
+    const set = new RandomizedSet();
+    expect(set.remove(0)).toBe(false);
+    expect(set.remove(0)).toBe(false);
+    expect(set.insert(0)).toBe(true);
+    expect(set.getRandom()).toBe(0);
+    expect(set.remove(0)).toBe(true);
+    expect(set.insert(0)).toBe(true);
+  })
 });

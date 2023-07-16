@@ -32,20 +32,35 @@
 // randomizedSet.insert(2); // 2 was already in the set, so return false.
 // randomizedSet.getRandom(); // Since 2 is the only number in the set, getRandom() will always return 2.
 
-const RandomizedSet = () => {
 
+const RandomizedSet = function() {
+  this.storage = [];
+  this.indexMap = new Map();
 };
 
-RandomizedSet.prototype.insert = (val) => {
-
+RandomizedSet.prototype.insert = function(val) {
+  if (this.indexMap.has(val)) return false;
+  this.storage.push(val);
+  this.indexMap.set(val, this.storage.length - 1);
+  return true;
 };
 
-RandomizedSet.prototype.remove = (val) => {
-
+RandomizedSet.prototype.remove = function(val) {
+  if (!this.indexMap.has(val)) return false;
+  const index = this.indexMap.get(val);
+  const lastItem = this.storage[this.storage.length-1];
+  this.storage[index] = lastItem;
+  this.storage.pop();
+  this.indexMap.delete(val);
+  // must check, because in the case that the last item is also
+  // the first item, we would be reinserting the item into the indexMap
+  if (this.indexMap.has(lastItem)) this.indexMap.set(lastItem, index);
+  return true;
 };
 
-RandomizedSet.prototype.getRandom = () => {
-
+RandomizedSet.prototype.getRandom = function() {
+  const randomIndex = Math.floor(Math.random() * this.storage.length);
+  return this.storage[randomIndex];
 };
 
 module.exports = RandomizedSet;
