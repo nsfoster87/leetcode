@@ -14,12 +14,30 @@
 // If there exists a solution, it is guaranteed to be unique
 
 const canCompleteCircuit = (gas, cost) => {
+    // this merely takes the largest starting difference between
+    // gas and cost--which is flawed
+
+    // for each element in the array,
+    // take the element, plus the sum of the right array,
+    // plus the sum of the left array
+
+    // this can be done by creating a leftSum and rightSum,
+    // looping through the array and accumulating
     const diffs = gas.map((station, i) => station - cost[i]);
-    const [sum, max] = diffs.reduce((sumAndMaxIndex, diff, i, arr) => {
-        const maxIndex = arr[sumAndMaxIndex[1]] >= diff ? sumAndMaxIndex[1] : i;
-        return [sumAndMaxIndex[0] + diff, maxIndex];
-    }, [0, 0]);
-    return sum >= 0 ? max : -1;
+    // a reverse array that maps each index in the diff array
+    // to the cumulative sum of all the diffs to its right
+    let totals = new Array(diffs.length);
+    let leftSums = [];
+    diffs.reduce((leftSum, diff) => {
+        leftSums.push(leftSum);
+        return leftSum + diff;
+    }, 0);
+
+    let sumFromRight = 0;
+    for (let i = diffs.length - 1; i >= 0; i--) {
+        sumFromRight += diffs[i];
+        totals[i] = sumFromRight
+    }
 };
 
 module.exports = canCompleteCircuit;
