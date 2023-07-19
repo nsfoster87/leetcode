@@ -14,7 +14,12 @@
 // If there exists a solution, it is guaranteed to be unique
 
 const canCompleteCircuit = (gas, cost) => {
-    return -1;
+    const diffs = gas.map((station, i) => station - cost[i]);
+    const [sum, max] = diffs.reduce((sumAndMaxIndex, diff, i, arr) => {
+        const maxIndex = arr[sumAndMaxIndex[1]] >= diff ? sumAndMaxIndex[1] : i;
+        return [sumAndMaxIndex[0] + diff, maxIndex];
+    }, [0, 0]);
+    return sum >= 0 ? max : -1;
 };
 
 module.exports = canCompleteCircuit;
