@@ -5,6 +5,7 @@ describe('asteroidCollision', () => {
         expect(asteroidCollision([5,10,-5])).toEqual([5,10]);
         expect(asteroidCollision([10,2,-5])).toEqual([10]);
         expect(asteroidCollision([10,2,-3,4,-5,5])).toEqual([10,5]);
+        expect(asteroidCollision([3, 2, -5, -3, 4, -4, 2, -5])).toEqual([-5,-3,-5]);
     });
     it('should return an empty array if all asteroids have been destroyed', () => {
         expect(asteroidCollision([8,-8])).toEqual([]);
