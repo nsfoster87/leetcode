@@ -24,4 +24,14 @@ describe('gasStation', () => {
         cost = [6,5,4,5,6,3];
         expect(canCompleteCircuit(gas, cost)).toBe(4);
     });
+    it('should work for a large n size, returning first index', () => {
+        let gas = new Array(10000).fill(0);
+        let cost = new Array(10000).fill(0);
+        gas[0] = 2;
+        cost[1] = 1;
+        expect(canCompleteCircuit(gas, cost)).toBe(0);
+    });
+    it('return index for one input where gas is equal to cost', () => {
+        expect(canCompleteCircuit([2], [2])).toBe(0);
+    })
 });
