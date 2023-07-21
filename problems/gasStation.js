@@ -15,8 +15,7 @@
 
 const canCompleteCircuit = (gas, cost) => {
     
-    const diffs = gas.map((station, i) => station - cost[i]);
-
+    
     // increment once through the diffs array, then again back down
     // on the second iteration, we should have four pieces
     // of information at each index...
@@ -31,7 +30,7 @@ const canCompleteCircuit = (gas, cost) => {
     // if the index is negative, we rule it out,
     // but we still look at the accumulated value and see if it is enough
     // to offset what we need from the left side for that index.
-
+    
     // [-1, 3, -2, -2, 1, 1] // diffs array
     // looping back down, by the time we hit index 4 (val=1)
     // we should know that in order to make a full loop, we need
@@ -39,6 +38,38 @@ const canCompleteCircuit = (gas, cost) => {
     // 1. be valid and
     // 2. be gt or equal to 2
     // (the 'needed' value for diffs[0]->diffs[3] is 2)
+    
+    // solution in O(n) time complexity: (loops through array 3 times):
+    
+    // first get an array of the difference between cost and gas
+    const diffs = gas.map((station, i) => station - cost[i]);
+
+    // initialize a leftSideNeeds var to 0;
+    // initialize a leftAccumulator var to 0;
+    // keep an array of what that particular index needs from wraparound
+    // called leftSideNeeds
+    // for each val in diffs:
+      // needsArray.push(leftSideNeeds);
+      // leftAccumulator += value
+      // if leftAccumulator < leftSideNeeds
+      // leftSideNeeds = leftAccumulator
+
+    // let rightAccumulator = 0;
+    // let rightSideNeeds = 0;
+    // for each val in diffs from end to start:
+      // rightAccumulator += val
+      // if val < 0:
+        // rightSideNeeds += val
+      // else if val > 0
+        // rightSideNeeds -= val
+        // if rightSideNeeds < 0 rightSideNeeds = 0
+      
+      // if (rightAccumulator >= needsArray[index])
+      // and val >= rightSideNeeds,
+        // return index
+    
+    // return -1
+
 };
 
 module.exports = canCompleteCircuit;
