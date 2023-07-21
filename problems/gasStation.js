@@ -14,30 +14,31 @@
 // If there exists a solution, it is guaranteed to be unique
 
 const canCompleteCircuit = (gas, cost) => {
-    // this merely takes the largest starting difference between
-    // gas and cost--which is flawed
-
-    // for each element in the array,
-    // take the element, plus the sum of the right array,
-    // plus the sum of the left array
-
-    // this can be done by creating a leftSum and rightSum,
-    // looping through the array and accumulating
+    
     const diffs = gas.map((station, i) => station - cost[i]);
-    // a reverse array that maps each index in the diff array
-    // to the cumulative sum of all the diffs to its right
-    let totals = new Array(diffs.length);
-    let leftSums = [];
-    diffs.reduce((leftSum, diff) => {
-        leftSums.push(leftSum);
-        return leftSum + diff;
-    }, 0);
 
-    let sumFromRight = 0;
-    for (let i = diffs.length - 1; i >= 0; i--) {
-        sumFromRight += diffs[i];
-        totals[i] = sumFromRight
-    }
+    // increment once through the diffs array, then again back down
+    // on the second iteration, we should have four pieces
+    // of information at each index...
+    // 1. an accumulated left side, and an accumulated right side
+    // 2. what value is needed to make the left side work,
+    //    and what value is needed to make the right side work.
+    // In other words as we move up the array, 
+    // keep track of what value is needed before starting the left array (index 0)
+    // that can be gathered by the right array
+    // Then, as we move back down, we look at each index,
+    // while keeping an accumulator (aka what we need) from the right of the array.
+    // if the index is negative, we rule it out,
+    // but we still look at the accumulated value and see if it is enough
+    // to offset what we need from the left side for that index.
+
+    // [-1, 3, -2, -2, 1, 1] // diffs array
+    // looping back down, by the time we hit index 4 (val=1)
+    // we should know that in order to make a full loop, we need
+    // index 4 through the rest of the array to
+    // 1. be valid and
+    // 2. be gt or equal to 2
+    // (the 'needed' value for diffs[0]->diffs[3] is 2)
 };
 
 module.exports = canCompleteCircuit;

@@ -16,8 +16,12 @@ describe('gasStation', () => {
         expect(canCompleteCircuit(gas, cost)).toBe(-1);
     });
     it('should not simple return the index with the greatest leftover gas', () => {
-        const gas = [5,8,2,8];
-        const cost = [6,5,6,6];
+        let gas = [5,8,2,8];
+        let cost = [6,5,6,6];
         expect(canCompleteCircuit(gas, cost)).toBe(3);
+
+        gas = [5,8,2,3,7,4];
+        cost = [6,5,4,5,6,3];
+        expect(canCompleteCircuit(gas, cost)).toBe(4);
     });
 });
