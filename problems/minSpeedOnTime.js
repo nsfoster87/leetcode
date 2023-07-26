@@ -20,7 +20,30 @@
 // and hour will have at most two digits after the decimal point.
 
 const minSpeedOnTime = (dist, hour) => {
+  const n = dist.length;
+  if (n > Math.ceil(hour)) return -1;
 
+  const largest = Math.max(...dist);
+
+  if (n === Math.ceil(hour)) {
+    const remainder = Number((hour % (n - 1)).toFixed(2));
+    const lastRate = remainder !== 0 ? (dist[n-1] / remainder) : 1;
+    console.log({remainder, largest, lastRate});
+    return Math.ceil(Math.max(largest, lastRate));
+  }
+
+  // if (n < Math.ceil(hour))...
+  const longestTime = largest === dist[n-1] ? hour - (n-1) : hour - (n-2);
+  let trialSpeed = largest === dist[n-1] ? Math.floor(largest/longestTime) : Math.ceil(largest/longestTime);
+  while (true) {
+    let totalTime = dist.reduce((total, currentDist, i) => {
+      if (i === n-1) return total + (currentDist / trialSpeed);
+      return total + Math.ceil(currentDist / trialSpeed);
+    }, 0);
+    console.log({totalTime, trialSpeed});
+    if (totalTime <= hour) return trialSpeed;
+    trialSpeed++;
+  }
 };
 
 module.exports = minSpeedOnTime;
