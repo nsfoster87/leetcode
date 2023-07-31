@@ -22,51 +22,59 @@
 const strangePrinter = (s) => {
   // 'aaabbcdbcbaabbcdcb' => 8
   //
-  // 'aaaaaaaaaaaa------' i: 0,  letters: {a: 11} lastPrintedIndex of 'a' is 11
-  // 'aaabbbbbbbaa------' i: 3,  letters: {a: 11, b: 9}, lastPrintedIndex = 9
-  // 'aaabbcbbbbaa------' i: 5,  letters: {a: 11, b: 9} lastPrintedIndex = 9
-  // 'aaabbcdbbbaa------' i: 6,  letters: {a: 11, b: 9} lastPrintedIndex = 9
-  // 'aaabbcdbcbaa------' i: 8,  letters: {a: 11, b: 9, c: 8, d: 6}
-  // 'aaabbcdbcbaabbbbbb' i: 12, letters: {a: 11, b: 17, c: 8, d: 6}
-  // 'aaabbcdbcbaabbcccb' i: 14, letters: {a: 11, b: 17, c: 16, d: 6}
-  // 'aaabbcdbcbaabbcdcb' i: 15, letters: {a: 11, b: 17, c: 16, d: 15}
+  // 'aaaaaaaaaaaa------' i: 0,  letters: {a: 11}, lastPrintedIndexes: [11]
+  // 'aaabbbbbbbaa------' i: 3,  letters: {a: 11, b: 9}, lastPrintedIndexes: [11,9]
+  // 'aaabbcbbbbaa------' i: 5,  letters: {a: 11, b: 9}, lastPrintedIndexes: [11,9]
+  // 'aaabbcdbbbaa------' i: 6,  letters: {a: 11, b: 9}, lastPrintedIndexes: [11,9]
+  // 'aaabbcdbcbaa------' i: 8,  letters: {a: 11, b: 9}, lastPrintedIndexes: [11,9]
+  // 'aaabbcdbcbaabbbbbb' i: 12, letters: {b: 17}, lastPrintedIndexes: [17]
+  // 'aaabbcdbcbaabbcccb' i: 14, letters: {b: 17, c: 16}, lastPrintedIndexes: [17,16]
+  // 'aaabbcdbcbaabbcdcb' i: 15, letters: {b: 17, c: 16}, lastPrintedIndexes: [17,16]
 
   // keep a stack of lastPrintedIndexes, and once i > end of stack, pop it off
   // in the above example it would look like this:
   // [] => [11] => [11,9] => [11] => [] => [17] => [17, 16] => [17] => []
 
-  // PSEUDOCODE SOLUTION
-  // let rounds = 0;
-  // const letters = {};
-  // let lastPrintedIndexes = [];
-  // const lettersMap = [];
-  // for (let i = 0; i < s.length; i++) {
-    // const currentLetter = s[i];
+  let rounds = 0;
+  const letters = {};
+  const lastPrintedIndexes = [];
+
+  for (let i = 0; i < s.length; i++) {
+    const currentLetter = s[i];
 
     // if we've passed a last printed index, remove it and the corresponding letter
-    // if (lastPrintedIndexes && i > lastPrintedIndexes[lastPrintedIndexes.length-1]) {
-      // lastPrintedIndexes.pop();
-      // const letter = s[i-1];
-      // delete letters[letter];
-      // }
+    if (lastPrintedIndexes.length && i > lastPrintedIndexes[lastPrintedIndexes.length-1]) {
+      lastPrintedIndexes.pop();
+      delete letters[s[i-1]];
+    }
 
-    // if letters[currentLetter] continue
+    if (letters[currentLetter]) continue;
 
-    // if (!lastPrintedIndex.length) {
-      // iterate backward from the end
-      // until we find the currentLetter
-      // push that lastIndex to lastPrintedIndexes
-      // letters[currentLetter] = lastIndex
-    // } else {
-      // iterate backward from lastPrintedIndex[lastPrintedIndex.length - 1]
-      // until we find the currentLetter
-      // if lastIndex > i
-        // push lastIndex to lastPrintedIndexes
-        // letters[currentLetter] = lastIndex
-    // }
-    // rounds++;
-  // }
+    // If there is no lastPrintedIndex, lastIndex = end of string
+    // If there is...
+      // we cannot simply move backward from lastPrintedIndex,
+      // because there may be "holes" (places where the lastPrintedIndex's letter appears)
+      // so, rather we need to move forward, keeping track of the last spot where
+      // we found the current letter, but once we find the OLD letter (the one found at lastPrinted)
+      // we break
+    const lastIndex = lastPrintedIndexes.length ? lastPrintedIndexes[lastPrintedIndexes.length - 1] : s.length - 1;
 
+    for (let j = lastIndex; j > i; j--) {
+      if (s[j] === currentLetter) {
+        lastPrintedIndexes.push(j);
+        letters[currentLetter] = j;
+        break;
+      }
+    }
+
+    // DEBUGGING
+    const lettersString = JSON.stringify(letters);
+    console.log({i, letters: lettersString, lastPrintedIndexes, rounds: rounds+1});
+
+    rounds++;
+  }
+
+  return rounds;
 };
 
 module.exports = strangePrinter;
