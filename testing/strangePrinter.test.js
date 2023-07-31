@@ -10,4 +10,7 @@ describe('strangePrinter', () => {
   it('should return 1 for an input string of one character', () => {
     expect(strangePrinter('a')).toBe(1);
   });
+  it('should not always assume first optimal print starts with first letter', () => {
+    expect(strangePrinter('tbgtgb')).toBe(4);
+  });
 });
