@@ -19,122 +19,75 @@
 // Explanation: Print "aaa" first and then print "b" from the second place of the string,
 // which will cover the existing character 'a'.
 
-// SOLUTION DIAGRAM EXAMPLE
-// 'aaabbcdbcbaabbcdcb' => 8
-//
-// 'aaaaaaaaaaaa------' i: 0,  letters: {a: 11}, lastPrintedIndexes: [11]
-// 'aaabbbbbbbaa------' i: 3,  letters: {a: 11, b: 9}, lastPrintedIndexes: [11,9]
-// 'aaabbcbbbbaa------' i: 5,  letters: {a: 11, b: 9}, lastPrintedIndexes: [11,9]
-// 'aaabbcdbbbaa------' i: 6,  letters: {a: 11, b: 9}, lastPrintedIndexes: [11,9]
-// 'aaabbcdbcbaa------' i: 8,  letters: {a: 11, b: 9}, lastPrintedIndexes: [11,9]
-// 'aaabbcdbcbaabbbbbb' i: 12, letters: {b: 17}, lastPrintedIndexes: [17]
-// 'aaabbcdbcbaabbcccb' i: 14, letters: {b: 17, c: 16}, lastPrintedIndexes: [17,16]
-// 'aaabbcdbcbaabbcdcb' i: 15, letters: {b: 17, c: 16}, lastPrintedIndexes: [17,16]
+// RECURSIVE SOLUTION DIAGRAM EXAMPLE
+// 'tbgatxgxxab'
+// '-bbbbbbbbbb' biggest substring is b->b
+// '-bbaaaaaaab' inside that, biggest is a->a
+// '-bbaaxxxxab' inside that, biggest is x->x
+// '-bbaaxgxxab' inside that, biggest is g
+// '-bbatxgxxab' out of x, 2nd biggest in a is t
+// '-bgatxgxxab' out of a, 2nd biggest in b is g
+// 'tbgatxgxxab' out of b, 2nd biggest is t
 
-// keep a stack of lastPrintedIndexes, and once i > end of stack, pop it off
-// in the above example it would look like this:
-// [] => [11] => [11,9] => [11] => [] => [17] => [17, 16] => [17] => []
+// RECURSIVE OVERVIEW
+// keep track of all indexes that have been *correctly* printed
+// find the biggest substring, print it
+// inside substring, while all indexes have not been correctly printed
+// find the biggest substring, print it
 
 const strangePrinter = (s) => {
   let rounds = 0;
-  const letters = {};
-  const lastPrintedIndexes = [];
+  const correctPrints = new Array(s.length).fill(false);
 
-  // CURRENT FLAW: 'tbgtgb'
-  // maybe we do a pass through the string once and find
-  // the largest spread, and start with that
+  const print = (start, end, letter = null) => {
+    // if letter, "print" letter from start to end AND find largest substring
+    let somethingPrinted = false;
+    let startIndexes = {};
+    let largestSubstring = { letter: null, length: 0 }
+    for (let i = start; i <= end; i++) {
+      // "print" by checking against original string and marking that index
+      if (letter === s[i]) {
+        correctPrints[i] = true;
+        somethingPrinted = true; // redundant to set multiple times
+      }
 
-  // is there a possibility of having this flaw nested?
-  // 'tbggaatggggaaaaaabb'
-  // in this instance, the largest spread is b -> b
-  // but within the b -> b, there's another largest subspread
-  // that does not start at the beginning of the substring
+      // find the largest substring by keeping track of start indexes of each letter
 
-  // 'tbgatxgxxab'
-  // '-bbbbbbbbbb' biggest substring is b->b
-  // '-bbaaaaaaab' inside that, biggest is a->a
-  // '-bbaaxxxxab' inside that, biggest is x->x
-  // '-bbaaxgxxab' inside that, biggest is g
-  // '-bbatxgxxab' out of x, 2nd biggest in a is t
-  // '-bgatxgxxab' out of a, 2nd biggest in b is g
-  // 'tbgatxgxxab' out of b, 2nd biggest is t
+      // BUG
+      // largest substring should account for "holes" where a previously printed letter
+      // (not from this round) will break the length of the substring
+      // 'abababa' currently returns 2
 
-  // keep track of all indexes that have been *correctly* printed
-  // find the biggest substring, print it
-  // inside substring, while all indexes have not been correctly printed
-  // find the biggest substring, print it
-
-  // RECURSIVE PSEUDOCODE:
-  // const correctPrints = new Array(.length).fill(false)
-
-  // function print(start, end, letter=null) {
-    // "print" letter from start to end
-    // AND find largest substring
-    // let startIndexes = {}
-    // keep a largestSubstring object: { letter: null, length: 0 } // start, end, length
-    // for each letter from start to end:
-      // if letter === s[i] correctPrints[i] = true
-      // if correctPrints[i] === true continue
-      // if (!startIndexes[letter]) startIndexes[letter] = i
-      // else {
-        // if (i - startIndexes[letter] > largestSubstring.length) {
-          // largestSubstring = {
-            // letter,
-            // length: i - startIndexes[letter],
-            // start: startIndexes[letter],
-            // end: i
-          // }
-          //
-        // }
-      // }
-    //
-    // if (!largestSubstring.letter) return
-    // print(startOfSubString, endOfSubString, letterOfSubString)
-    //
-    // now, remaining issue is printing the remaining substrings...
-    // if (start < startOfSubstring) print(start, startOfSubString)
-    // if (end > endOfSubstring) print(endOfSubstring, end)
-  // }
-
-  for (let i = 0; i < s.length; i++) {
-
-    const currentLetter = s[i];
-
-    // if we've passed a last printed index, remove it and the corresponding letter
-    if (lastPrintedIndexes.length && i > lastPrintedIndexes[lastPrintedIndexes.length-1]) {
-      lastPrintedIndexes.pop();
-      delete letters[s[i-1]];
+      if (correctPrints[i] === true) continue;
+      if (startIndexes[s[i]] === undefined) startIndexes[s[i]] = i;
+      if (i - startIndexes[s[i]] + 1 > largestSubstring.length) {
+        largestSubstring = {
+          letter: s[i],
+          length: i - startIndexes[s[i]] + 1,
+          start: startIndexes[s[i]],
+          end: i
+        };
+      }
     }
 
-    if (letters[currentLetter]) continue;
-
-    if (!lastPrintedIndexes.length) {
-      for (let j = s.length-1; j > i; j--) {
-        if (s[j] === currentLetter) {
-          lastPrintedIndexes.push(j);
-          letters[currentLetter] = j;
-          break;
-        }
-      }
-    } else {
-      const lastIndex = lastPrintedIndexes[lastPrintedIndexes.length - 1];
-      let endOfCurrentPrint = i;
-      const letterOfConcern = s[lastIndex];
-      for (let j = i; s[j] !== letterOfConcern && j < lastIndex; j++) {
-        if (s[j] === currentLetter) endOfCurrentPrint = j;
-      }
-      lastPrintedIndexes.push(endOfCurrentPrint);
-      letters[currentLetter] = endOfCurrentPrint;
-    }
+    if (somethingPrinted) rounds++;
 
     // DEBUGGING
-    // const lettersString = JSON.stringify(letters);
-    // console.log({i, letters: lettersString, lastPrintedIndexes, rounds: rounds+1});
+    const start_indexes = JSON.stringify(startIndexes);
+    const sub = JSON.stringify(largestSubstring);
+    console.log({s, somethingPrinted, start, end, letter, start_indexes, sub, rounds});
 
-    rounds++;
-  }
+    if (!largestSubstring.letter) return;
+    print(largestSubstring.start, largestSubstring.end, largestSubstring.letter);
 
+    // also print remaining substrings
+    if (start < largestSubstring.start) print(start, largestSubstring.start - 1);
+    if (end > largestSubstring.end) print(largestSubstring.end + 1, end);
+  };
+
+  print(0, s.length - 1);
   return rounds;
+
 };
 
 module.exports = strangePrinter;
