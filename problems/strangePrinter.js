@@ -20,14 +20,9 @@
 // which will cover the existing character 'a'.
 
 // RECURSIVE SOLUTION DIAGRAM EXAMPLE
-// 'tbgatxgxxab'
-// '-bbbbbbbbbb' biggest substring is b->b
-// '-bbaaaaaaab' inside that, biggest is a->a
-// '-bbaaxxxxab' inside that, biggest is x->x
-// '-bbaaxgxxab' inside that, biggest is g
-// '-bbatxgxxab' out of x, 2nd biggest in a is t
-// '-bgatxgxxab' out of a, 2nd biggest in b is g
-// 'tbgatxgxxab' out of b, 2nd biggest is t
+// "dddccbdbababaddcbcaabdbdddcccddbbaabddb"
+// "dddddddddddddddddddddddddddddddddddddd-"
+// ""
 
 // RECURSIVE OVERVIEW
 // keep track of all indexes that have been *correctly* printed
@@ -36,8 +31,12 @@
 // find the biggest substring, print it
 
 const strangePrinter = (s) => {
+  console.log(s);
   let rounds = 0;
   const correctPrints = new Array(s.length).fill(false);
+
+  // DEBUGGING
+  let printOut = new Array(s.length).fill('-');
 
   const print = (start, end, letter = null) => {
     // if letter, "print" letter from start to end AND find largest substring
@@ -49,7 +48,14 @@ const strangePrinter = (s) => {
       if (letter === s[i]) {
         correctPrints[i] = true;
         somethingPrinted = true; // redundant to set multiple times
+
+        // DEBUGGING
+        printOut[i] = letter;
       }
+
+      // BUG: It may take fewer turns to overprint an already printed letter
+      // if perhaps reprinting that printed letter would take fewer turns
+      // than jumping around the holes of the printed letter
 
       // find the largest substring by keeping track of start indexes of each letter
       if (correctPrints[i] === true) {
@@ -70,6 +76,7 @@ const strangePrinter = (s) => {
     if (somethingPrinted) rounds++;
 
     // DEBUGGING
+    if (somethingPrinted) console.log(rounds, printOut.join(''));
     // const start_indexes = JSON.stringify(startIndexes);
     // const sub = JSON.stringify(largestSubstring);
     // console.log({s, somethingPrinted, start, end, letter, start_indexes, sub, rounds});

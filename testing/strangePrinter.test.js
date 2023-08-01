@@ -17,4 +17,7 @@ describe('strangePrinter', () => {
     expect(strangePrinter('tbggaatggxggaaaaaabb')).toBe(7);
     expect(strangePrinter('tbgatxgxxab')).toBe(7);
   });
+  it('should sometimes print over letters if it would take fewer turns than going around holes', () => {
+    expect(strangePrinter("dddccbdbababaddcbcaabdbdddcccddbbaabddb")).toBe(15);
+  });
 });
