@@ -52,13 +52,10 @@ const strangePrinter = (s) => {
       }
 
       // find the largest substring by keeping track of start indexes of each letter
-
-      // BUG
-      // largest substring should account for "holes" where a previously printed letter
-      // (not from this round) will break the length of the substring
-      // 'abababa' currently returns 2
-
-      if (correctPrints[i] === true) continue;
+      if (correctPrints[i] === true) {
+        startIndexes = {};
+        continue;
+      }
       if (startIndexes[s[i]] === undefined) startIndexes[s[i]] = i;
       if (i - startIndexes[s[i]] + 1 > largestSubstring.length) {
         largestSubstring = {
@@ -73,9 +70,9 @@ const strangePrinter = (s) => {
     if (somethingPrinted) rounds++;
 
     // DEBUGGING
-    const start_indexes = JSON.stringify(startIndexes);
-    const sub = JSON.stringify(largestSubstring);
-    console.log({s, somethingPrinted, start, end, letter, start_indexes, sub, rounds});
+    // const start_indexes = JSON.stringify(startIndexes);
+    // const sub = JSON.stringify(largestSubstring);
+    // console.log({s, somethingPrinted, start, end, letter, start_indexes, sub, rounds});
 
     if (!largestSubstring.letter) return;
     print(largestSubstring.start, largestSubstring.end, largestSubstring.letter);
