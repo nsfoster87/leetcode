@@ -40,7 +40,64 @@ const strangePrinter = (s) => {
   const letters = {};
   const lastPrintedIndexes = [];
 
+  // CURRENT FLAW: 'tbgtgb'
+  // maybe we do a pass through the string once and find
+  // the largest spread, and start with that
+
+  // is there a possibility of having this flaw nested?
+  // 'tbggaatggggaaaaaabb'
+  // in this instance, the largest spread is b -> b
+  // but within the b -> b, there's another largest subspread
+  // that does not start at the beginning of the substring
+
+  // 'tbgatxgxxab'
+  // '-bbbbbbbbbb' biggest substring is b->b
+  // '-bbaaaaaaab' inside that, biggest is a->a
+  // '-bbaaxxxxab' inside that, biggest is x->x
+  // '-bbaaxgxxab' inside that, biggest is g
+  // '-bbatxgxxab' out of x, 2nd biggest in a is t
+  // '-bgatxgxxab' out of a, 2nd biggest in b is g
+  // 'tbgatxgxxab' out of b, 2nd biggest is t
+
+  // keep track of all indexes that have been *correctly* printed
+  // find the biggest substring, print it
+  // inside substring, while all indexes have not been correctly printed
+  // find the biggest substring, print it
+
+  // RECURSIVE PSEUDOCODE:
+  // const correctPrints = new Array(.length).fill(false)
+
+  // function print(start, end, letter=null) {
+    // "print" letter from start to end
+    // AND find largest substring
+    // let startIndexes = {}
+    // keep a largestSubstring object: { letter: null, length: 0 } // start, end, length
+    // for each letter from start to end:
+      // if letter === s[i] correctPrints[i] = true
+      // if correctPrints[i] === true continue
+      // if (!startIndexes[letter]) startIndexes[letter] = i
+      // else {
+        // if (i - startIndexes[letter] > largestSubstring.length) {
+          // largestSubstring = {
+            // letter,
+            // length: i - startIndexes[letter],
+            // start: startIndexes[letter],
+            // end: i
+          // }
+          //
+        // }
+      // }
+    //
+    // if (!largestSubstring.letter) return
+    // print(startOfSubString, endOfSubString, letterOfSubString)
+    //
+    // now, remaining issue is printing the remaining substrings...
+    // if (start < startOfSubstring) print(start, startOfSubString)
+    // if (end > endOfSubstring) print(endOfSubstring, end)
+  // }
+
   for (let i = 0; i < s.length; i++) {
+
     const currentLetter = s[i];
 
     // if we've passed a last printed index, remove it and the corresponding letter

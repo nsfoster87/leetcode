@@ -13,4 +13,8 @@ describe('strangePrinter', () => {
   it('should not always assume first optimal print starts with first letter', () => {
     expect(strangePrinter('tbgtgb')).toBe(4);
   });
+  it('should be able to handle nesting of prints that do not start with first letter', () => {
+    expect(strangePrinter('tbggaatggxggaaaaaabb')).toBe(7);
+    expect(strangePrinter('tbgatxgxxab')).toBe(7);
+  });
 });
