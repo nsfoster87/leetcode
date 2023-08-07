@@ -26,7 +26,21 @@
 // 0 <= height[i] <= 10^5
 
 const trap = (height) => {
-
+  // approach:
+  // keep track of total
+  // keep track of an object that has current heights,
+  // as well as that height's gap count
+  // at each new index,
+    // if water needs to be filled in,
+      // fill it in from the bottom up:
+      // take a row minus the next lowest row
+      // and multiply it by the gap count
+      // then remove that row from the object
+      // (up to rows < current index's value)
+      // add this total to the total
+    // set gaps[height[index]] = 0
+    // increment all remaining numbers in gaps
+    // (only gaps heigher than current block height should remain)
 };
 
 module.exports = trap;
